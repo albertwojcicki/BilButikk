@@ -29,7 +29,7 @@ include_once("db.connect.php");
             <div class="collapse navbar-collapse" id="navbar-collapse">
                 <ul class="navbar-nav links">
                     <li class="nav-item"><a class="nav-link link-light" href="#">Overview </a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="untitled.html">Surveys </a></li>
+                    <li class="nav-item"><a class="nav-link link-light" href="#">Surveys </a></li>
                     <li class="nav-item"><a class="nav-link link-light" href="#"> Reports</a></li>
                     <li class="nav-item"><a class="nav-link link-light custom-navbar" href="#"> Roles</a></li>
                 </ul>
