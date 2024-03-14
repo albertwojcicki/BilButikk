@@ -73,9 +73,9 @@ if ($result->num_rows > 0) {
                 <div class="simple-slider">
                     <div class="swiper-container">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide" style="background: url(&quot;https://cdn.bootstrapstudio.io/placeholders/1400x800.png&quot;) center center / cover no-repeat;"></div>
-                            <div class="swiper-slide" style="background: url(&quot;https://cdn.bootstrapstudio.io/placeholders/1400x800.png&quot;) center center / cover no-repeat;"></div>
-                            <div class="swiper-slide" style="background: url(&quot;https://cdn.bootstrapstudio.io/placeholders/1400x800.png&quot;) center center / cover no-repeat;"></div>
+                            <div class="swiper-slide" style="background: url(<?php echo $car_image; ?>) center center / cover no-repeat;"></div>
+                            <div class="swiper-slide" style="background: url(<?php echo $car_image; ?>) center center / cover no-repeat;"></div>
+                            <div class="swiper-slide" style="background: url(<?php echo $car_image; ?>) center center / cover no-repeat;"></div>
                         </div>
                         <div class="swiper-pagination"></div>
                         <div class="swiper-button-prev"></div>
@@ -86,9 +86,9 @@ if ($result->num_rows > 0) {
             <div class="col-md-5">
                 
             <h1><?php echo $car_name; ?></h1>
-                <h1>Torta Mil Hojas Manjar</h1>
-                <p><br>Clásica torta de mil hojas, rellena con manjar casero y huevo moll con almendras.<br><br>Ingredientes:<br>para la masa<br><br>3 tazas de harina cernida sin polvos de hornear<br>250 grs de mantequilla sin sal<br>3 yemas<br>¾ taza de leche<br>1 cucharada de pisco o ron<br>1 pizca de sal<br><br>para el relleno<br><br>3 tazas de manjar<br>2 1/2 taza de nueces molidas<br>¼ taza de azúcar flor<br><br><br><br><br><br></p>
-                <h2 class="text-center text-success"><i class="fa fa-dollar"></i>&nbsp;CLP 22.500<br><br><br></h2>
+                
+                <p><br> <?php echo $car_text; ?></p>
+                <h2 class="text-center text-success"><i class="fa fa-dollar"></i>&nbsp;<?php echo $car_price; ?><br><br><br></h2>
             </div>
         </div>
     </div>

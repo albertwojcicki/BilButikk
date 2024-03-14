@@ -25,19 +25,22 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="assets/css/Simple-Slider-swiper-bundle.min.css">
     <link rel="stylesheet" href="assets/css/Simple-Slider.css">
     <link rel="stylesheet" href="assets/css/Video-Parallax-Background-video-parallax.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md custom-header navbar-light">
-        <div class="container-fluid">
-            <div><a class="navbar-brand" href="index.php">Company<span>logo </span> </a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navbar-collapse"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button></div>
-            <div class="collapse navbar-collapse" id="navbar-collapse">
-                <ul class="navbar-nav links">
-                    <li class="nav-item"><a class="nav-link link-light" href="ad.php" style="color: var(--bs-navbar-color);">Overview </a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Surveys </a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#"> Reports</a></li>
-                    <li class="nav-item"><a class="nav-link link-light custom-navbar" href="#"> Roles</a></li>
-                </ul>
+    <nav class="navbar navbar-expand-md custom-header navbar-light" style="display:flex !important; justify-content:right !important; width:100% !important;" >
+        <div class="container-fluid" style="display:flex !important;justify-content:space-between !important;width:100%;">
+            <div><a class="navbar-brand" href="#">Company<span>logo </span> </a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navbar-collapse"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button></div>
+            
+            <div class="dropdown">
+            <input type="checkbox" role="button" aria-label="Display the menu" class="menu">
+  <div class="dropdown-content">
+    <a href="#">Link 1</a>
+    <a href="#">Link 2</a>
+    <a href="#">Link 3</a>
+  
+</div>
                 <ul class="navbar-nav ms-auto"></ul>
             </div>
         </div>
