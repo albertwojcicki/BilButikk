@@ -1,5 +1,13 @@
 <?php
 include_once("db.connect.php");
+
+$select_query = "SELECT car_id, car_name, car_price, car_text, car_image FROM cars";
+
+$stmt = $conn->prepare($select_query);
+
+$stmt->execute();
+$result = $stmt->get_result();
+$stmt->close();
 ?>
 
 <!DOCTYPE html>
@@ -78,90 +86,21 @@ include_once("db.connect.php");
                         <div class="row">
                             <div class="col-md-3 col-sm-6">
                                 <div class="product-grid7">
-                                    <div class="product-image7"><a href="#"><img src="img-1.jpg" class="pic-1"><img src="img-2.jpg" class="pic-2"></a>
-                                        <ul class="social">
-                                            <li><a class="fa fa-search"></a></li>
-                                            <li><a class="fa fa-shopping-bag"></a></li>
-                                            <li><a class="fa fa-shopping-cart"></a></li>
-                                        </ul><span class="product-new-label">New</span>
-                                    </div>
-                                    <div class="product-content">
-                                        <h3 class="title"><a href="#">Men's Blazer</a></h3>
-                                        <ul class="rating">
-                                            <li class="fa fa-star"></li>
-                                            <li class="fa fa-star"></li>
-                                            <li class="fa fa-star"></li>
-                                            <li class="fa fa-star"></li>
-                                            <li class="fa fa-star"></li>
-                                        </ul>
-                                        <div class="price"><span>$15.00</span><span>$20.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="product-grid7">
-                                    <div class="product-image7"><a href="#"><img src="img-3.jpg" class="pic-1"><img src="img-4.jpg" class="pic-2"></a>
-                                        <ul class="social">
-                                            <li><a class="fa fa-search"></a></li>
-                                            <li><a class="fa fa-shopping-bag"></a></li>
-                                            <li><a class="fa fa-shopping-cart"></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product-content">
-                                        <h3 class="title"><a href="#">Women's White Shirt</a></h3>
-                                        <ul class="rating">
-                                            <li class="fa fa-star"></li>
-                                            <li class="fa fa-star"></li>
-                                            <li class="fa fa-star"></li>
-                                            <li class="fa fa-star"></li>
-                                            <li class="fa fa-star"></li>
-                                        </ul>
-                                        <div class="price"><span>$15.00</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="product-grid7">
-                                    <div class="product-image7"><a href="#"><img src="img-5.jpg" class="pic-1"><img src="img-6.jpg" class="pic-2"></a>
-                                        <ul class="social">
-                                            <li><a class="fa fa-search"></a></li>
-                                            <li><a class="fa fa-shopping-bag"></a></li>
-                                            <li><a class="fa fa-shopping-cart"></a></li>
-                                        </ul><span class="product-new-label">New</span>
-                                    </div>
-                                    <div class="product-content">
-                                        <h3 class="title"><a href="#">Men's Blazer</a></h3>
-                                        <ul class="rating">
-                                            <li class="fa fa-star"></li>
-                                            <li class="fa fa-star"></li>
-                                            <li class="fa fa-star"></li>
-                                            <li class="fa fa-star"></li>
-                                            <li class="fa fa-star"></li>
-                                        </ul>
-                                        <div class="price"><span>$15.00</span><span></span></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 col-sm-6">
-                                <div class="product-grid7">
-                                    <div class="product-image7"><a href="#"><img src="img-7.jpg" class="pic-1"><img src="img-8.jpg" class="pic-2"></a>
-                                        <ul class="social">
-                                            <li><a class="fa fa-search"></a></li>
-                                            <li><a class="fa fa-shopping-bag"></a></li>
-                                            <li><a class="fa fa-shopping-cart"></a></li>
-                                        </ul><span class="product-new-label">New</span>
-                                    </div>
-                                    <div class="product-content">
-                                        <h3 class="title"><a href="#">Men's Blazer</a></h3>
-                                        <ul class="rating">
-                                            <li class="fa fa-star"></li>
-                                            <li class="fa fa-star"></li>
-                                            <li class="fa fa-star"></li>
-                                            <li class="fa fa-star"></li>
-                                            <li class="fa fa-star"></li>
-                                        </ul>
-                                        <div class="price"><span>$15.00</span><span>$20.00</span></div>
-                                    </div>
+                                   <?php
+                                     
+                                     
+                                     while ($row = $result->fetch_assoc()) {
+                                        
+                                        echo "Car ID: " . $row["car_id"] . "<br>";
+                                        echo "Car Name: " . $row["car_name"] . "<br>";
+                                        echo "Car Price: " . $row["car_price"] . "<br>";
+                                        echo "Car Text: " . $row["car_text"] . "<br>";
+                                        echo "Car Image: <img src='" . $row["car_image"] . "'><br>";
+                                        echo "<hr>";
+                                    }
+                                      
+                                      ?>
+                                   
                                 </div>
                             </div>
                         </div>

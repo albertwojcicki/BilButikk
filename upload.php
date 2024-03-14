@@ -43,7 +43,7 @@ function uploadFile($file) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $car_name = $_POST["car_name"];
     $car_price = $_POST["car_price"];
-    $description = $_POST["description"];
+    $description = $_POST["car_text"];
 
     // Upload image
     $image = uploadFile($_FILES["image"]);
