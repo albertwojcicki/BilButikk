@@ -4,12 +4,10 @@ include_once("db.connect.php");
 $select_query = "SELECT car_id, car_name, car_price, car_text, car_image FROM cars";
 
 $stmt = $conn->prepare($select_query);
-
 $stmt->execute();
 $result = $stmt->get_result();
-$stmt->close();
-?>
 
+?>
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
 
@@ -89,17 +87,20 @@ $stmt->close();
                                    <?php
                                      
                                      
+                                     
                                      while ($row = $result->fetch_assoc()) {
-                                        
-                                        echo "Car ID: " . $row["car_id"] . "<br>";
-                                        echo "Car Name: " . $row["car_name"] . "<br>";
-                                        echo "Car Price: " . $row["car_price"] . "<br>";
-                                        echo "Car Text: " . $row["car_text"] . "<br>";
-                                        echo "Car Image: <img src='" . $row["car_image"] . "'><br>";
-                                        echo "<hr>";
-                                    }
+                                         echo "Car ID: " . $row["car_id"] . "<br>";
+                                         echo "Car Name: " . $row["car_name"] . "<br>";
+                                         echo "Car Price: " . $row["car_price"] . "<br>";
+                                         echo "Car Text: " . $row["car_text"] . "<br>";
+                                         echo "Car Image: <img src='" . $row["car_image"] . "'><br>";
+                                         echo '<a href="ad.php?car_id=' . $row["car_id"] . '">View Product</a>';
+                                         echo "<hr>";
+                                     }
+                                     ?>
+                                    
                                       
-                                      ?>
+                                
                                    
                                 </div>
                             </div>

@@ -1,5 +1,35 @@
 <?php
 include_once("db.connect.php");
+
+// Assuming $product_id contains the specific product ID you want to display
+if (isset($_GET['car_id'])) {
+    // Assuming $product_id contains the specific product ID you want to display
+    $product_id = $_GET['car_id'];
+
+    // Rest of your code to fetch and display product details
+} else {
+    echo "No product ID provided";
+}
+
+$select_query = "SELECT car_id, car_name, car_price, car_text, car_image FROM cars WHERE car_id = ?";
+$stmt = $conn->prepare($select_query);
+$stmt->bind_param("i", $product_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+// Check if product exists
+if ($result->num_rows > 0) {
+    // Fetch product data
+    $row = $result->fetch_assoc();
+    $car_id = $row["car_id"];
+    $car_name = $row["car_name"];
+    $car_price = $row["car_price"];
+    $car_text = $row["car_text"];
+    $car_image = $row["car_image"];
+
+    // Close statement
+    $stmt->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -54,6 +84,8 @@ include_once("db.connect.php");
                 </div>
             </div>
             <div class="col-md-5">
+                
+            <h1><?php echo $car_name; ?></h1>
                 <h1>Torta Mil Hojas Manjar</h1>
                 <p><br>Clásica torta de mil hojas, rellena con manjar casero y huevo moll con almendras.<br><br>Ingredientes:<br>para la masa<br><br>3 tazas de harina cernida sin polvos de hornear<br>250 grs de mantequilla sin sal<br>3 yemas<br>¾ taza de leche<br>1 cucharada de pisco o ron<br>1 pizca de sal<br><br>para el relleno<br><br>3 tazas de manjar<br>2 1/2 taza de nueces molidas<br>¼ taza de azúcar flor<br><br><br><br><br><br></p>
                 <h2 class="text-center text-success"><i class="fa fa-dollar"></i>&nbsp;CLP 22.500<br><br><br></h2>
@@ -88,3 +120,7 @@ include_once("db.connect.php");
 </body>
 
 </html>
+
+<?php } else {
+ echo "No product found";
+    }?>
