@@ -11,7 +11,9 @@ if (isset($_GET['car_id'])) {
     echo "No product ID provided";
 }
 
-$select_query = "SELECT car_id, car_name, car_price, car_text, car_image FROM cars WHERE car_id = ?";
+$select_query = "SELECT car_name, car_price, car_text, car_image,car_year, car_km, car_gearbox, car_fuel,
+car_power, car_seats, car_owners, car_wheeldrive, car_range, car_color, car_last_eu_control, car_next_eu_control,
+car_weight, car_of_the_week FROM cars WHERE car_id = ?";
 $stmt = $conn->prepare($select_query);
 $stmt->bind_param("i", $product_id);
 $stmt->execute();
@@ -21,16 +23,56 @@ $result = $stmt->get_result();
 if ($result->num_rows > 0) {
     // Fetch product data
     $row = $result->fetch_assoc();
-    $car_id = $row["car_id"];
     $car_name = $row["car_name"];
     $car_price = $row["car_price"];
-    $car_text = $row["car_text"];
+    $description = $row["car_text"];
     $car_image = $row["car_image"];
+    $car_year = $row["car_year"];
+    $car_km = $row["car_km"];
+    $car_gearbox = $row["car_gearbox"];
+    $car_fuel = $row["car_fuel"];
+    $car_power = $row["car_power"];
+    $car_seats = $row["car_seats"];
+    $car_owners = $row["car_owners"];
+    $car_wheeldrive = $row["car_wheeldrive"];
+    $car_range = $row["car_range"];
+    $car_color = $row["car_color"];
+    $car_last_eu_control = $row["car_last_eu_control"];
+    $car_next_eu_control = $row["car_next_eu_control"];
+    $car_weight = $row["car_weight"];
+    $car_of_the_week = $row["car_of_the_week"];
 
     // Close statement
     $stmt->close();
 
-?>
+    
+    $carData = array(
+        "Modellår" => $car_year,
+        "Kilometers" => $car_km,
+        "Gearbox" => $car_gearbox,
+        "Fuel" => $car_fuel,
+        "Power" => $car_power,
+        "Seats" => $car_seats,
+        "Owners" => $car_owners,
+        "Wheel Drive" => $car_wheeldrive,
+        "Range" => $car_range,
+        "Color" => $car_color,
+        "Last EU Control" => $car_last_eu_control,
+        "Next EU Control" => $car_next_eu_control,
+        "Weight" => $car_weight,
+        "Car of the Week" => $car_of_the_week
+    );
+    
+    // Function to generate table rows
+    function generateTableRow($key, $value) {
+        echo "<tr>";
+        echo "<td>$key</td>";
+        echo "<td>:</td>";
+        echo "<td>$value</td>";
+        echo "</tr>";
+    }
+    ?>
+
 
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
@@ -38,7 +80,7 @@ if ($result->num_rows > 0) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Untitled</title>
+    <title><?php echo $car_name; ?></title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
     <link rel="stylesheet" href="assets/css/swiper-icons.css">
@@ -50,6 +92,7 @@ if ($result->num_rows > 0) {
     <link rel="stylesheet" href="assets/css/Simple-Slider-swiper-bundle.min.css">
     <link rel="stylesheet" href="assets/css/Simple-Slider.css">
     <link rel="stylesheet" href="assets/css/Video-Parallax-Background-video-parallax.css">
+    <link rel="stylesheet" href="adStyle.css">
 </head>
 
 <body>
@@ -89,12 +132,37 @@ if ($result->num_rows > 0) {
                 
             <h1><?php echo $car_name; ?></h1>
                 
-                <p><br> <?php echo $car_text; ?></p>
-                <h2 class="text-center text-success"><i class="fa fa-dollar"></i>&nbsp;<?php echo $car_price; ?><br><br><br></h2>
+                <p><br> <?php echo $description; ?></p>
+                <h2 class="text-center text-success"><?php echo $car_price; ?><br><br><br></h2>
             </div>
         </div>
     </div>
-    <video  autoplay loop style="aspect-ratio: 20/100">
+    <div class="div-table">
+    <table>
+        <?php
+        // Iterate over the car data array and generate table rows
+        $count = 0;
+        foreach ($carData as $key => $value) {
+            // Start a new row after every three items
+            if ($count % 3 == 0) {
+                echo "<tr>";
+            }
+            // Generate table row
+            generateTableRow($key, $value);
+            // End row after every three items
+            if ($count % 3 == 2) {
+                echo "</tr>";
+            }
+            $count++;
+        }
+        // If the last row doesn't have three items, close the row
+        if ($count % 3 != 0) {
+            echo "</tr>";
+        }
+        ?>
+        </table>
+    </div>
+    <video  autoplay loop mute style="aspect-ratio: 20/100">
   <source src="video.mp4" type="video/mp4">
   <source src="movie.ogg" type="video/ogg">
 Your browser does not support the video tag.

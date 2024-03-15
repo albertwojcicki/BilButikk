@@ -54,8 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         VALUES ('$car_name', '$car_price', '$description', '$image')";
 
         if ($conn->query($sql) === TRUE) {
-            echo "Car information uploaded successfully";
-            include_once("upload.php");
+           
+            header("admin.php");
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }

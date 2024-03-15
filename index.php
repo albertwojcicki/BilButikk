@@ -96,13 +96,13 @@ $result = $stmt->get_result();
                                         while ($row = $result->fetch_assoc()) {
                                             echo '<div class="product-box">';
                                             echo '<div class="div-image">';
-                                            echo '<div class="product-image"><a href="ad.php?car_id=' . $row["car_id"] . '" style="width:100%;"><img src="' . $row["car_image"] . '"class="image-car" style="width:100%;"></a></div>';
+                                            echo '<a href="ad.php?car_id=' . $row["car_id"] . '" style="width:100%;"><img src="' . $row["car_image"] . '"class="image-car" style="width:100%;"></a>';
                                             echo '</div>';
                                             echo '<div class="product-details">';
-                                            echo '<p>Car ID: ' . $row["car_id"] . '</p>';
-                                            echo '<p>Car Name: ' . $row["car_name"] . '</p>';
-                                            echo '<p>Car Price: ' . $row["car_price"] . '</p>';
-                                            echo '<p>Car Text: ' . $row["car_text"] . '</p>';
+                                            
+                                            echo '<h6>' . $row["car_name"] . '</h6>';
+                                            echo '<h6> ' . $row["car_price"] . '</h6>';
+                                           
                                             echo '</div>';
                                             echo '</div>';
                                         }
@@ -111,41 +111,48 @@ $result = $stmt->get_result();
                                      }
                                      ?>
                                      <style>
+                                         .product-grid7 {
+                                            display: flex;
+                                            flex-wrap: wrap;
+                                            justify-content: flex-start;
+                                            margin-bottom: 20px;
+                                        }
+
                                         .product-box {
                                             display: flex;
+                                            justify-content: center;
                                             flex-direction: column;
                                             align-items: center;
-                                            border: 1px solid #ccc;
-                                            /* padding: 10px; */
-                                            /* margin-bottom: 20px; */
+                                            width: 100%; /* Adjust width for three columns with some spacing */
+                                            margin-bottom: 20px;
+                                            /* overflow: hidden; */
+                                            border: 1px solid #ccc; /* Add border for better visualization */
+                                            box-sizing: border-box; /* Ensure padding and border are included in width */
                                         }
-                                        .row {
-                                            width: 100%;
-                                        }
-                                        .image-car {
-                                            width: 200%;
-                                        }
+
                                         .div-image {
-                                            width: 100%;
-                                            display: flex;
-                                            justify-content: center;
-                                            /* height: 100px; */
+                                            overflow: hidden;
+                                            height: 150px; /* Adjust height for the top half */
                                         }
+
                                         .product-image img {
                                             width: 100%;
-                                            /* max-width: 300px; */
-                                            height: auto;
-                                            /* object-fit: cover !important; */
+                                            height: 100%;
+                                            object-fit: cover;
                                         }
-                                        .product-image {
-                                            width: 100% !important;
-                                            object-fit: cover !important;
-                                            display: flex;
-                                            justify-content: center;
-                                        }
+
                                         .product-details {
-                                            text-align: center;
+                                            padding: 10px;
+                                            display: flex;
+                                            width: 90%;
+                                            justify-content: space-between;
+
                                         }
+
+                                        .product-details p {
+                                            margin: 5px 0;
+                                        }
+
                                         .product-grid {
                                             display: grid;
                                             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
