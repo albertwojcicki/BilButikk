@@ -66,7 +66,9 @@ if ($result->num_rows > 0) {
             </div>
         </div>
     </nav>
+    
     <div class="container">
+        
         <h1 class="text-center">Product Details</h1>
         <div class="row text-center">
             <div class="col-md-7">
@@ -92,6 +94,11 @@ if ($result->num_rows > 0) {
             </div>
         </div>
     </div>
+    <video  autoplay loop style="aspect-ratio: 20/100">
+  <source src="video.mp4" type="video/mp4">
+  <source src="movie.ogg" type="video/ogg">
+Your browser does not support the video tag.
+</video>
     <footer class="text-center bg-dark">
         <div class="container text-white py-4 py-lg-5">
             <ul class="list-inline">

@@ -85,22 +85,91 @@ $result = $stmt->get_result();
                 <div class="shopping-grid">
                     <div class="container">
                         <div class="row">
-                            <div class="col-md-3 col-sm-6">
+                            <div class="col-md-3 col-sm-6" style="width:100%;">
                                 <div class="product-grid7">
                                    <?php
                                      
                                      
                                      
                                      while ($row = $result->fetch_assoc()) {
-                                         echo "Car ID: " . $row["car_id"] . "<br>";
-                                         echo "Car Name: " . $row["car_name"] . "<br>";
-                                         echo "Car Price: " . $row["car_price"] . "<br>";
-                                         echo "Car Text: " . $row["car_text"] . "<br>";
-                                         echo "Car Image: <img src='" . $row["car_image"] . "'><br>";
-                                         echo '<a href="ad.php?car_id=' . $row["car_id"] . '">View Product</a>';
-                                         echo "<hr>";
+                                        echo '<div class="product-grid">';
+                                        while ($row = $result->fetch_assoc()) {
+                                            echo '<div class="product-box">';
+                                            echo '<div class="div-image">';
+                                            echo '<div class="product-image"><a href="ad.php?car_id=' . $row["car_id"] . '" style="width:100%;"><img src="' . $row["car_image"] . '"class="image-car" style="width:100%;"></a></div>';
+                                            echo '</div>';
+                                            echo '<div class="product-details">';
+                                            echo '<p>Car ID: ' . $row["car_id"] . '</p>';
+                                            echo '<p>Car Name: ' . $row["car_name"] . '</p>';
+                                            echo '<p>Car Price: ' . $row["car_price"] . '</p>';
+                                            echo '<p>Car Text: ' . $row["car_text"] . '</p>';
+                                            echo '</div>';
+                                            echo '</div>';
+                                        }
+                                        echo '</div>';
+
                                      }
                                      ?>
+                                     <style>
+                                        .product-box {
+                                            display: flex;
+                                            flex-direction: column;
+                                            align-items: center;
+                                            border: 1px solid #ccc;
+                                            /* padding: 10px; */
+                                            /* margin-bottom: 20px; */
+                                        }
+                                        .row {
+                                            width: 100%;
+                                        }
+                                        .image-car {
+                                            width: 200%;
+                                        }
+                                        .div-image {
+                                            width: 100%;
+                                            display: flex;
+                                            justify-content: center;
+                                            /* height: 100px; */
+                                        }
+                                        .product-image img {
+                                            width: 100%;
+                                            /* max-width: 300px; */
+                                            height: auto;
+                                            /* object-fit: cover !important; */
+                                        }
+                                        .product-image {
+                                            width: 100% !important;
+                                            object-fit: cover !important;
+                                            display: flex;
+                                            justify-content: center;
+                                        }
+                                        .product-details {
+                                            text-align: center;
+                                        }
+                                        .product-grid {
+                                            display: grid;
+                                            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                                            grid-gap: 20px;
+                                            width: 100%;
+                                        }
+
+                                        .product-box {
+                                            border: 1px solid #ccc;
+                                            padding: 10px;
+                                        }
+
+                                        .product-image img {
+                                            width: 200%;
+                                            max-width: 200px;
+                                            height: auto;
+                                        }
+
+                                        .product-details {
+                                            text-align: center;
+
+                                        }
+
+                                     </style>
                                     
                                       
                                 
