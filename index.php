@@ -55,31 +55,44 @@ $result = $stmt->get_result();
     <div class="container mtr-5 mb-2">
         <div class="row">
             <div class="col-md-2 col-12 border">
-                <p class="lead text-center mb-0">Max Price:</p><input type="number" class="form-control text-center" value="200"><input class="form-range w-100" type="range" min="0" max="200">
-                <hr>
+                
                 <p class="lead text-center mb-0">Sort By:</p><select class="form-control" name="sort">
-                    <option value="all" selected="">Price: Low to High</option>
-                    <option value="reviews">Reviews</option>
-                    <option value="price_high">Price: High to Low</option>
-                    <option value="newest">Newest Arrivals</option>
+                    <option value="all" selected="">Pris: Lav til høy</option>
+                    <option value="reviews">Pris: Høy til lav</option>
+                    <option value="newest">Nye</option>
                 </select>
                 <hr>
-                <p class="lead text-center mb-0">Gender:</p><select class="form-control" name="gender">
+                <p class="lead text-center mb-0">Car brand:</p><select class="form-control" name="gender">
                     <option value="all" selected="">All</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="unisex">Unisex</option>
+                    <option value="BMW">BMW</option>
+                    <option value="Audo">Audi</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="Opel">Opel</option>
+                    <option value="Volksvagen">Volkswagen</option>
+                    <option value="Volvo">Volvo</option>
+                    <option value="Tesla">Tesla</option>
+                    <option value="Kia">Kia</option>
                 </select>
                 <hr>
-                <p class="lead text-center mb-0">Brand:</p><select class="form-control" name="brand">
+                <p class="lead text-center mb-0">Stand:</p><select class="form-control" name="brand">
                     <option value="all" selected="">All</option>
-                    <option value="Nike">Nike</option>
+                    <option value="Brukt">Brukt</option>
+                    <option value="Ubrukt">Ubrukt</option>
                 </select>
                 <hr>
-                <p class="lead text-center mb-0">Color:</p><select class="form-control mb-2" name="color">
+                <p class="lead text-center mb-0">Farge:</p><select class="form-control mb-2" name="color">
                     <option value="all" selected="">All</option>
-                    <option value="orange">Orange</option>
+                    <option value="Svart">Svart</option>
+                    <option value="Hvit">Hvit</option>
+                    <option value="Grå">Grå</option>
+                    <option value="Rød">Rød</option>
+                    <option value="Blå">Blå</option>
+                    <option value="Andre">Andre</option>
                 </select>
+                <hr>
+                <php
+                    
+                ?>
             </div>
             <div class="col-md-10 col-12">
                 <div class="shopping-grid">
@@ -101,7 +114,7 @@ $result = $stmt->get_result();
                                             echo '<div class="product-details">';
                                             
                                             echo '<h6>' . $row["car_name"] . '</h6>';
-                                            echo '<h6> ' . $row["car_price"] . '</h6>';
+                                            echo '<h6> ' . $row["car_price"] ."kr". '</h6>';
                                            
                                             echo '</div>';
                                             echo '</div>';
@@ -214,6 +227,16 @@ $result = $stmt->get_result();
     <script src="assets/js/Simple-Slider-swiper-bundle.min.js"></script>
     <script src="assets/js/Simple-Slider.js"></script>
     <script src="assets/js/Video-Parallax-Background-video-parallax.js"></script>
+<?php
+
+// Include database connection and fetch products logic here
+// Filter and sort products based on form submission
+
+
+// Display products here
+
+?>
+
 </body>
 
 </html>

@@ -17,6 +17,7 @@ $result = $stmt->get_result();
     <title>Document</title>
 </head>
 <body>
+    <a href="admin.php">tilbake til admin</a>
 <div class="col-md-10 col-12">
                 <div class="shopping-grid">
                     <div class="container">

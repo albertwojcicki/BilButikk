@@ -18,7 +18,10 @@ include_once("db.connect.php");
         
         <label for="car_price">Prisen:</label><br>
         <input type="text" id="car_price" name="car_price"><br>
-        
+
+        <label for="car_brand">Merket:</label><br>
+        <input type="text" id="car_brand" name="car_brand"><br>
+
         <label for="car_text">Beskrivelse:</label><br>
         <textarea id="car_text" name="car_text" rows="4" cols="50"></textarea><br>
         
@@ -27,8 +30,7 @@ include_once("db.connect.php");
         
         <input type="radio" id="brukt" name="brukt" value="brukt">
         <label for="brukt">Brukt</label><br>
-        <input type="radio" id="ubrukt" name="ubrukt" value="ubrukt">
-        <label for="ubrukt">Ubrukt</label><br>
+        
         
         <label for="car_year">Modellår:</label><br>
         <input type="text" id="car_year" name="car_year"><br>
@@ -61,10 +63,10 @@ include_once("db.connect.php");
         <input type="text" id="car_color" name="car_color"><br>
         
         <label for="car_last_eu_control">Dato på sist EU-kontroll:</label><br>
-        <input type="text" id="car_last_eu_control" name="car_last_eu_control"><br>
+        <input type="date" id="car_last_eu_control" name="car_last_eu_control"><br>
         
         <label for="car_next_eu_control">Dato på neste EU-kontroll:</label><br>
-        <input type="text" id="car_next_eu_control" name="car_next_eu_control"><br>
+        <input type="date" id="car_next_eu_control" name="car_next_eu_control"><br>
         
         <label for="car_weight">Vekt på bilen:</label><br>
         <input type="text" id="car_weight" name="car_weight"><br>
@@ -75,6 +77,7 @@ include_once("db.connect.php");
         <input type="submit" value="Submit"><br>
     </form>
     <a href="delete.php">Slett</a>
+    <a href="change_ad.php">Ende på annonser</a>
 </body>
 </html>
 
@@ -122,6 +125,7 @@ function uploadFile($file) {
 // Process form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $car_name = $_POST["car_name"];
+    $car_brand = $_POST["car_brand"];
     $car_price = $_POST["car_price"];
     $description = $_POST["car_text"];
     $car_image = $_POST["car_image"];
@@ -145,10 +149,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($image) {
         // Insert data into database
-        $sql = "INSERT INTO cars (car_name, car_price, car_text, car_image,car_year, car_km, car_gearbox, car_fuel,
+        $sql = "INSERT INTO cars (car_name, car_brand, car_price, car_text, car_image,car_year, car_km, car_gearbox, car_fuel,
         car_power, car_seats, car_owners, car_wheeldrive, car_range, car_color, car_last_eu_control, car_next_eu_control,
         car_weight, car_of_the_week )
-        VALUES ('$car_name', '$car_price', '$description', '$image', '$car_year',
+        VALUES ('$car_name', '$car_brand', '$car_price', '$description', '$image', '$car_year',
 '$car_km',
 '$car_gearbox',
 '$car_fuel', 
@@ -165,7 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($conn->query($sql) === TRUE) {
            
-            header("admin.php");
+            echo "Succesful";
         } else {
             echo "Error: " . $sql . "<br>" . $conn->error;
         }

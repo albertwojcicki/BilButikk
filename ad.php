@@ -11,7 +11,7 @@ if (isset($_GET['car_id'])) {
     echo "No product ID provided";
 }
 
-$select_query = "SELECT car_name, car_price, car_text, car_image,car_year, car_km, car_gearbox, car_fuel,
+$select_query = "SELECT car_name, car_brand, car_price, car_text, car_image,car_year, car_km, car_gearbox, car_fuel,
 car_power, car_seats, car_owners, car_wheeldrive, car_range, car_color, car_last_eu_control, car_next_eu_control,
 car_weight, car_of_the_week FROM cars WHERE car_id = ?";
 $stmt = $conn->prepare($select_query);
@@ -24,6 +24,7 @@ if ($result->num_rows > 0) {
     // Fetch product data
     $row = $result->fetch_assoc();
     $car_name = $row["car_name"];
+    $car_brand = $row["car_brand"];
     $car_price = $row["car_price"];
     $description = $row["car_text"];
     $car_image = $row["car_image"];
@@ -48,6 +49,7 @@ if ($result->num_rows > 0) {
     
     $carData = array(
         "Modellår" => $car_year,
+        "Merke" => $car_brand,
         "Kilometers" => $car_km,
         "Gearbox" => $car_gearbox,
         "Fuel" => $car_fuel,
