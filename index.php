@@ -1,9 +1,56 @@
 <?php
 include_once("db.connect.php");
 
-$select_query = "SELECT car_id, car_name, car_price, car_text, car_image FROM cars";
+$select_query = "SELECT car_id, car_name, car_brand, car_price, car_text, car_image,car_stand, car_year, car_km, car_gearbox, car_fuel,
+car_power, car_seats, car_owners, car_wheeldrive, car_range, car_color, car_last_eu_control, car_next_eu_control,
+car_weight, car_of_the_week  FROM cars";
+// Initialize variables for filters
+$filterSort = isset($_POST['sort']) ? $_POST['sort'] : 'all';
+$filterBrand = isset($_POST['brand']) ? $_POST['brand'] : 'all';
+$filterStand = isset($_POST['stand']) ? $_POST['stand'] : 'all';
+$filterColor = isset($_POST['color']) ? $_POST['color'] : 'all';
+
+// Prepare base query
+$select_week_query = "SELECT car_id, car_name, car_price, car_text, car_image FROM cars WHERE car_of_the_week = 1";
+$stmt_week = $conn->prepare($select_week_query);
+
+$stmt_week->execute();
+$result_week = $stmt_week->get_result();
+
+
+$select_query = "SELECT car_id, car_name, car_price, car_text, car_image FROM cars WHERE 1";
+
+// Add filters to the query
+if ($filterSort != 'all') {
+    // Modify query based on sort filter
+    // Add your logic here for sorting
+}
+
+if ($filterBrand != 'all') {
+    // Modify query based on brand filter
+    $select_query .= " AND car_brand = '$filterBrand'";
+}
+
+if ($filterStand != 'all') {
+    // Modify query based on stand filter
+    $select_query .= " AND car_stand = '$filterStand'";
+}
+
+if ($filterColor != 'all') {
+    // Modify query based on color filter
+    // Ensure to use the correct column name for the color field in your database
+    $select_query .= " AND car_color = '$filterColor'";
+}
+
+
 
 $stmt = $conn->prepare($select_query);
+
+if (!$stmt) {
+    // If there's an error in query preparation, output the error message
+    die("Error in query preparation: " . $conn->error);
+}
+
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -28,7 +75,7 @@ $result = $stmt->get_result();
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body >
     <nav class="navbar navbar-expand-md custom-header navbar-light" style="display:flex !important; justify-content:right !important; width:100% !important;" >
         <div class="container-fluid" style="display:flex !important;justify-content:space-between !important;width:100%;">
             <div><a class="navbar-brand" href="#">Company<span>logo </span> </a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navbar-collapse"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button></div>
@@ -52,77 +99,122 @@ $result = $stmt->get_result();
             <source src="http://thenewcode.com/assets/videos/polina.mp4" type="video/mp4" wp-acf="[{'type':'url','name':'video','label':'Video','wrapper':{'width':30}}]" wp-attr="[{'target':'src','replace':'%1'}]">
         </video>
     </div>
+    <style>
+          .div-carWeek {
+    background-color: grey;
+    width: 100%;
+    height: 150px;
+
+  }
+
+  .div-carProducts {
+    height: 
+  }
+
+    </style>
+    
     <div class="container mtr-5 mb-2">
         <div class="row">
-            <div class="col-md-2 col-12 border">
+            <div class="col-md-2 col-12 border" >
                 
-                <p class="lead text-center mb-0">Sort By:</p><select class="form-control" name="sort">
-                    <option value="all" selected="">Pris: Lav til høy</option>
-                    <option value="reviews">Pris: Høy til lav</option>
-                    <option value="newest">Nye</option>
-                </select>
-                <hr>
-                <p class="lead text-center mb-0">Car brand:</p><select class="form-control" name="gender">
-                    <option value="all" selected="">All</option>
-                    <option value="BMW">BMW</option>
-                    <option value="Audo">Audi</option>
-                    <option value="Toyota">Toyota</option>
-                    <option value="Opel">Opel</option>
-                    <option value="Volksvagen">Volkswagen</option>
-                    <option value="Volvo">Volvo</option>
-                    <option value="Tesla">Tesla</option>
-                    <option value="Kia">Kia</option>
-                </select>
-                <hr>
-                <p class="lead text-center mb-0">Stand:</p><select class="form-control" name="brand">
-                    <option value="all" selected="">All</option>
-                    <option value="Brukt">Brukt</option>
-                    <option value="Ubrukt">Ubrukt</option>
-                </select>
-                <hr>
-                <p class="lead text-center mb-0">Farge:</p><select class="form-control mb-2" name="color">
-                    <option value="all" selected="">All</option>
-                    <option value="Svart">Svart</option>
-                    <option value="Hvit">Hvit</option>
-                    <option value="Grå">Grå</option>
-                    <option value="Rød">Rød</option>
-                    <option value="Blå">Blå</option>
-                    <option value="Andre">Andre</option>
-                </select>
-                <hr>
-                <php
-                    
-                ?>
+            <form action="index.php" method="post" >
+    <p class="lead text-center mb-0">Sort By:</p>
+    <select class="form-control" name="sort">
+        <option value="all" <?php if ($filterSort == 'all') echo 'selected'; ?>>Pris: Lav til høy</option>
+        <option value="reviews" <?php if ($filterSort == 'reviews') echo 'selected'; ?>>Pris: Høy til lav</option>
+        <option value="newest" <?php if ($filterSort == 'newest') echo 'selected'; ?>>Nye</option>
+    </select>
+    <hr>
+    <p class="lead text-center mb-0">Car brand:</p>
+    <select class="form-control" name="brand">
+        <option value="all" <?php if ($filterBrand == 'all') echo 'selected'; ?>>All</option>
+        <option value="BMW" <?php if ($filterBrand == 'BMW') echo 'selected'; ?>>BMW</option>
+        <option value="Audi" <?php if ($filterBrand == 'Audi') echo 'selected'; ?>>Audi</option>
+        <option value="Toyota" <?php if ($filterBrand == 'Toyota') echo 'selected'; ?>>Toyota</option>
+        <option value="Opel" <?php if ($filterBrand == 'Opel') echo 'selected'; ?>>Opel</option>
+        <option value="Tesla" <?php if ($filterBrand == 'Tesla') echo 'selected'; ?>>Tesla</option>
+        <option value="Volkswagen" <?php if ($filterBrand == 'Volkswagen') echo 'selected'; ?>>Volkswagen</option>
+        <option value="Skoda" <?php if ($filterBrand == 'Skoda') echo 'selected'; ?>>Skoda</option>
+        <option value="Kia" <?php if ($filterBrand == 'Kia') echo 'selected'; ?>>Kia</option>
+        <option value="Hyundai" <?php if ($filterBrand == 'Hyundai') echo 'selected'; ?>>Hyundai</option>
+        <!-- Add more options here -->
+    </select>
+    <hr>
+    <p class="lead text-center mb-0">Brukt/Ubrukt:</p>
+    <select class="form-control" name="stand">
+        <option value="all" <?php if ($filterStand == 'all') echo 'selected'; ?>>All</option>
+        <option value="Brukt" <?php if ($filterStand == 'Brukt') echo 'selected'; ?>>Brukt</option>
+        <option value="Ubrukt" <?php if ($filterStand == 'Ubrukt') echo 'selected'; ?>>Ubrukt</option>
+    </select>
+    <hr>
+    <p class="lead text-center mb-0">Farge:</p>
+    <select class="form-control mb-2" name="color">
+        <option value="all" <?php if ($filterColor == 'all') echo 'selected'; ?>>All</option>
+        <option value="Svart" <?php if ($filterColor == 'Svart') echo 'selected'; ?>>Svart</option>
+        <option value="Hvit" <?php if ($filterColor == 'Hvit') echo 'selected'; ?>>Hvit</option>
+        <option value="Grå" <?php if ($filterColor == 'Grå') echo 'selected'; ?>>Grå</option>
+        <option value="Rød" <?php if ($filterColor == 'Rød') echo 'selected'; ?>>Rød</option>
+        <option value="Grønn" <?php if ($filterColor == 'Grønn') echo 'selected'; ?>>Grønn</option>
+        <!-- Add more options here -->
+    </select>
+    <form action="index.php?filters_applied=true" method="post" id="filterForm" onsubmit="applyFilters()">
+    <!-- Your form inputs here -->
+   <button type="submit" class="btn btn-primary">Filter</button>
+    <button type="button" class="btn btn-secondary" onclick="resetFilters()">Reset Filters</button>
+</form>
+
+
+</form>
+<script>
+    function applyFilters() {
+        // Store the current scroll position in localStorage
+        localStorage.setItem('scrollPosition', window.scrollY);
+    }
+
+    // Check if there's a stored scroll position and scroll to it
+    window.onload = function() {
+        var scrollPosition = localStorage.getItem('scrollPosition');
+        if (scrollPosition) {
+            window.scrollTo(0, scrollPosition);
+            localStorage.removeItem('scrollPosition'); // Remove the stored scroll position
+        }
+    }
+
+    function resetFilters() {
+        // Reload the page to reset filters
+        window.location.href = 'index.php';
+    }
+</script>
+
+
+
+
+
+
+
+
             </div>
-            <div class="col-md-10 col-12">
+            <div class="col-md-10 col-12" id="articles">
                 <div class="shopping-grid">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-3 col-sm-6" style="width:100%;">
                                 <div class="product-grid7">
-                                   <?php
-                                     
-                                     
-                                     
-                                     while ($row = $result->fetch_assoc()) {
-                                        echo '<div class="product-grid">';
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo '<div class="product-box">';
-                                            echo '<div class="div-image">';
-                                            echo '<a href="ad.php?car_id=' . $row["car_id"] . '" style="width:100%;"><img src="' . $row["car_image"] . '"class="image-car" style="width:100%;"></a>';
-                                            echo '</div>';
-                                            echo '<div class="product-details">';
-                                            
-                                            echo '<h6>' . $row["car_name"] . '</h6>';
-                                            echo '<h6> ' . $row["car_price"] ."kr". '</h6>';
-                                           
-                                            echo '</div>';
-                                            echo '</div>';
-                                        }
-                                        echo '</div>';
-
-                                     }
-                                     ?>
+                                <?php
+    while ($row = $result->fetch_assoc()) {
+        echo '<div class="product-box">';
+        echo '<div class="div-image">';
+        echo '<a href="ad.php?car_id=' . $row["car_id"] . '" style="width:100%;"><img src="' . $row["car_image"] . '"class="image-car" style="width:100%;"></a>';
+        echo '</div>';
+        echo '<div class="product-details">';
+        
+        echo '<h6>' . $row["car_name"] . '</h6>';
+        echo '<h6> ' . $row["car_price"] ."kr". '</h6>';
+       
+        echo '</div>';
+        echo '</div>';
+    }
+    ?>
                                      <style>
                                          .product-grid7 {
                                             display: flex;
@@ -136,8 +228,8 @@ $result = $stmt->get_result();
                                             justify-content: center;
                                             flex-direction: column;
                                             align-items: center;
-                                            width: 100%; /* Adjust width for three columns with some spacing */
-                                            margin-bottom: 20px;
+                                            width: 30%; /* Adjust width for three columns with some spacing */
+                                            margin: 15px;
                                             /* overflow: hidden; */
                                             border: 1px solid #ccc; /* Add border for better visualization */
                                             box-sizing: border-box; /* Ensure padding and border are included in width */
@@ -202,7 +294,7 @@ $result = $stmt->get_result();
             </div>
         </div>
     </div>
-    <footer class="text-center bg-dark">
+    <footer  class="text-center bg-dark">
         <div class="container text-white py-4 py-lg-5">
             <ul class="list-inline">
                 <li class="list-inline-item me-4"><a class="link-light" href="#">Web design</a></li>

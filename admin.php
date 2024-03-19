@@ -28,10 +28,10 @@ include_once("db.connect.php");
         <label for="car_image">Bilde:</label><br>
         <input type="file" id="image" name="image"><br>
         
-        <input type="radio" id="brukt" name="brukt" value="brukt">
-        <label for="brukt">Brukt</label><br>
         
-        
+        <label for="car_stand">Brukt/ubrukt:</label><br>
+        <input type="text" id="car_stand" name="car_stand"><br>
+
         <label for="car_year">Modellår:</label><br>
         <input type="text" id="car_year" name="car_year"><br>
         
@@ -129,6 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $car_price = $_POST["car_price"];
     $description = $_POST["car_text"];
     $car_image = $_POST["car_image"];
+    $car_stand = $_POST["car_stand"];
     $car_year = $_POST["car_year"];
     $car_km = $_POST["car_km"];
     $car_gearbox = $_POST["car_gearbox"];
@@ -149,10 +150,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($image) {
         // Insert data into database
-        $sql = "INSERT INTO cars (car_name, car_brand, car_price, car_text, car_image,car_year, car_km, car_gearbox, car_fuel,
+        $sql = "INSERT INTO cars (car_name, car_brand, car_price, car_text, car_image,car_year, car_stand, car_km, car_gearbox, car_fuel,
         car_power, car_seats, car_owners, car_wheeldrive, car_range, car_color, car_last_eu_control, car_next_eu_control,
         car_weight, car_of_the_week )
         VALUES ('$car_name', '$car_brand', '$car_price', '$description', '$image', '$car_year',
+'$car_stand',
 '$car_km',
 '$car_gearbox',
 '$car_fuel', 
