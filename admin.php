@@ -11,7 +11,9 @@ include_once("db.connect.php");
     <title>Car Information Form</title>
 </head>
 <body>
-    <h2>Last opp bilar</h2>
+   
+
+<h2>Last opp bilar</h2>
     <form action="" method="post" enctype="multipart/form-data">
         <label for="car_name">Navn på bilen:</label><br>
         <input type="text" id="car_name" name="car_name"><br>

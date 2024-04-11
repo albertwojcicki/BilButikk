@@ -5,10 +5,10 @@ $select_query = "SELECT car_id, car_name, car_brand, car_price, car_text, car_im
 car_power, car_seats, car_owners, car_wheeldrive, car_range, car_color, car_last_eu_control, car_next_eu_control,
 car_weight, car_of_the_week  FROM cars";
 // Initialize variables for filters
-$filterSort = isset ($_POST['sort']) ? $_POST['sort'] : 'all';
-$filterBrand = isset ($_POST['brand']) ? $_POST['brand'] : 'all';
-$filterStand = isset ($_POST['stand']) ? $_POST['stand'] : 'all';
-$filterColor = isset ($_POST['color']) ? $_POST['color'] : 'all';
+$filterSort = isset($_POST['sort']) ? $_POST['sort'] : 'all';
+$filterBrand = isset($_POST['brand']) ? $_POST['brand'] : 'all';
+$filterStand = isset($_POST['stand']) ? $_POST['stand'] : 'all';
+$filterColor = isset($_POST['color']) ? $_POST['color'] : 'all';
 
 // Prepare base query
 $select_week_query = "SELECT car_id, car_name, car_price, car_text, car_image FROM cars WHERE car_of_the_week = 1";
@@ -48,7 +48,7 @@ $stmt = $conn->prepare($select_query);
 
 if (!$stmt) {
     // If there's an error in query preparation, output the error message
-    die ("Error in query preparation: " . $conn->error);
+    die("Error in query preparation: " . $conn->error);
 }
 
 $stmt->execute();
@@ -136,8 +136,9 @@ $result = $stmt->get_result();
         .product-box {
             width: calc(25% - 20px);
             margin: 10px;
- 
+
         }
+
         .div-carWeek {
             display: flex;
             justify-content: center;
@@ -238,7 +239,7 @@ $result = $stmt->get_result();
                             echo 'selected'; ?>>Kia</option>
                         <option value="Hyundai" <?php if ($filterBrand == 'Hyundai')
                             echo 'selected'; ?>>Hyundai</option>
-        
+
                     </select>
                     <hr>
                     <p class="lead text-center mb-0">Brukt/Ubrukt:</p>
@@ -276,25 +277,25 @@ $result = $stmt->get_result();
 
                 </form>
                 <script>
-    function applyFilters() {
-        // Save scroll position before reload
-        localStorage.setItem('scrollPosition', window.scrollY);
-    }
+                    function applyFilters() {
+                        // Save scroll position before reload
+                        localStorage.setItem('scrollPosition', window.scrollY);
+                    }
 
-    window.onload = function () {
-        var scrollPosition = localStorage.getItem('scrollPosition');
-        if (scrollPosition) {
-            window.scrollTo(0, scrollPosition);
-            localStorage.removeItem('scrollPosition');
-        }
-    }
+                    window.onload = function () {
+                        var scrollPosition = localStorage.getItem('scrollPosition');
+                        if (scrollPosition) {
+                            window.scrollTo(0, scrollPosition);
+                            localStorage.removeItem('scrollPosition');
+                        }
+                    }
 
-    function resetFilters() {
-        // Reload the page without scrolling
-        localStorage.setItem('scrollPosition', window.scrollY);
-        window.location.href = 'index.php?filters_applied=true';
-    }
-</script>
+                    function resetFilters() {
+                        // Reload the page without scrolling
+                        localStorage.setItem('scrollPosition', window.scrollY);
+                        window.location.href = 'index.php?filters_applied=true';
+                    }
+                </script>
 
 
 

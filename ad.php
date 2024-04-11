@@ -97,6 +97,8 @@ if ($result->num_rows > 0) {
     <link rel="stylesheet" href="assets/css/Simple-Slider.css">
     <link rel="stylesheet" href="assets/css/Video-Parallax-Background-video-parallax.css">
     <link rel="stylesheet" href="adStyle.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Video-Parallax-Background-v2-multiple-parallax.css">
 </head>
 
 <body>
@@ -137,41 +139,152 @@ if ($result->num_rows > 0) {
             <h1><?php echo $car_name; ?></h1>
                 
                 <p><br> <?php echo $description; ?></p>
-                <h2 class="text-center text-success"><?php echo $car_price; ?><br><br><br></h2>
+                <h2 class="text-center text-success"><?php echo $car_price . "kr"; ?><br><br><br></h2>
             </div>
         </div>
     </div>
-    <div class="div-table">
-    <table>
-        <?php
-        // Iterate over the car data array and generate table rows
-        $count = 0;
-        foreach ($carData as $key => $value) {
-            // Start a new row after every three items
-            if ($count % 3 == 0) {
-                echo "<tr>";
-            }
-            // Generate table row
-            generateTableRow($key, $value);
-            // End row after every three items
-            if ($count % 3 == 2) {
-                echo "</tr>";
-            }
-            $count++;
-        }
-        // If the last row doesn't have three items, close the row
-        if ($count % 3 != 0) {
-            echo "</tr>";
-        }
-        ?>
-        </table>
+    <div class="parallax">
+        <div class="container d-flex justify-content-center align-items-center parallax-content" style="height:100vh; display:flex;flex-direction:row !important;justify-content:space-evenly;">
+            <div class="col-12 col-md-10 col-lg-8 d-flex justify-content-center flex-column">
+                
+                <div class="col-md-6">
+                <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Modellår</th>
+                        <td><?php echo $car_year; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Merke</th>
+                        <td><?php echo $car_brand; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Farge</th>
+                        <td><?php echo $car_color; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Antall kjørte kilometer</th>
+                        <td><?php echo $car_km . "km"; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Girkasse</th>
+                        <td><?php echo $car_gearbox; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Brukt</th>
+                        <td><?php echo $car_stand; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Vekt</th>
+                        <td><?php echo $car_weight . "kg"; ?></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="col-md-6">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Drivstoff</th>
+                        <td><?php echo $car_fuel; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Hestekrefter</th>
+                        <td><?php echo $car_power . "hk"; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Antall seter</th>
+                        <td><?php echo $car_seats; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Tideligere eiere</th>
+                        <td><?php echo $car_owners; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Hjulsdrift</th>
+                        <td><?php echo $car_wheeldrive; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Sist EU-Godkjent</th>
+                        <td><?php echo $car_last_eu_control; ?></td>
+                    </tr>
+                    <tr>
+                        <th>Neste EU-kontroll</th>
+                        <td><?php echo $car_next_eu_control; ?></td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div><video class="parallax-background" autoplay="" loop="" muted="">
+            <source src="video.mp4" type="video/mp4" >
+        </video>
+        <div class="parallax-placeholder" style="background-image:url(uploads/bmw.jpg);"></div>
     </div>
-    <video  autoplay loop mute style="aspect-ratio: 20/100">
-  <source src="video.mp4" type="video/mp4">
-  <source src="movie.ogg" type="video/ogg">
-Your browser does not support the video tag.
-</video>
-    <footer class="text-center bg-dark">
+    </div>
+<style>
+    th {
+        width: 10% !important ;
+
+    }
+    td {
+        width: 10% !important;
+        
+    }
+    .col-md-6 {
+        width: 30%;
+        
+    }
+    .flex-column {
+        flex-direction: row !important;
+    }
+    .col-12 {
+        
+        background-color: rgba(0,0,0,0) !important;
+    }
+    .div-wholeTable {
+        position: relative;
+        z-index: 2;
+    }
+    .col-md-6 {
+        background-color: rgba(0,0,0,0) !important;
+    }
+    .parallax {
+        color:white;
+        background-color: rgba(0,0,0,0) !important;
+    }
+    .video-container {
+        position: relative;
+        width: 800px; /* Same width as the video */
+        height: 400px; /* Same height as the video */
+    }
+    .video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 800px;
+        height: 400px;
+        min-width: 50%;
+        min-height: 50%;
+        z-index: -1; /* Set the video behind the table */
+    }
+    .table {
+        background-color: transparent; /* Set the table background to transparent */
+    }
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 60px;
+        background-color: #f5f5f5;
+        text-align: center;
+        line-height: 60px;
+        z-index: 3; /* Ensure the footer is above the table and video */
+    }
+</style>
+
+   
+    <footer class="text-center bg-dark  " style="width:100%;">
         <div class="container text-white py-4 py-lg-5">
             <ul class="list-inline">
                 <li class="list-inline-item me-4"><a class="link-light" href="#">Web design</a></li>
@@ -196,6 +309,8 @@ Your browser does not support the video tag.
     <script src="assets/js/Simple-Slider-swiper-bundle.min.js"></script>
     <script src="assets/js/Simple-Slider.js"></script>
     <script src="assets/js/Video-Parallax-Background-video-parallax.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/Video-Parallax-Background-v2-multiple-parallax.js"></script>
 </body>
 
 </html>
