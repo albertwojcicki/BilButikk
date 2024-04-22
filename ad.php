@@ -97,26 +97,38 @@ if ($result->num_rows > 0) {
     <link rel="stylesheet" href="assets/css/Simple-Slider.css">
     <link rel="stylesheet" href="assets/css/Video-Parallax-Background-video-parallax.css">
     <link rel="stylesheet" href="adStyle.css">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/Video-Parallax-Background-v2-multiple-parallax.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
+    <link rel="stylesheet" href="assets/css/swiper-icons.css">
+    <link rel="stylesheet" href="assets/css/canito-detalle-producto.css">
+    <link rel="stylesheet" href="assets/css/Footer-Dark-icons.css">
+    <link rel="stylesheet" href="assets/css/Pretty-Header-.css">
+    <link rel="stylesheet" href="assets/css/shopping-ecommerce-products.css">
+    <link rel="stylesheet" href="assets/css/Simple-Slider-swiper-bundle.min.css">
+    <link rel="stylesheet" href="assets/css/Simple-Slider.css">
+    <link rel="stylesheet" href="assets/css/Video-Parallax-Background-video-parallax.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-md custom-header navbar-light">
-        <div class="container-fluid">
-            <div><a class="navbar-brand" href="index.php">Company<span>logo </span> </a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navbar-collapse"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button></div>
-            <div class="collapse navbar-collapse" id="navbar-collapse">
-                <ul class="navbar-nav links">
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Overview </a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#">Surveys </a></li>
-                    <li class="nav-item"><a class="nav-link link-light" href="#"> Reports</a></li>
-                    <li class="nav-item"><a class="nav-link link-light custom-navbar" href="#"> Roles</a></li>
-                </ul>
+<nav class="navbar navbar-expand-md custom-header navbar-light"
+        style="display:flex !important; justify-content:right !important; width:100% !important;">
+        <div class="container-fluid"
+            style="display:flex !important;;justify-content:space-between !important;width:100%;">
+            <div><a class="navbar-brand" href="index.php">Company<span>logo </span> </a><button data-bs-toggle="collapse"
+                    class="navbar-toggler" data-bs-target="#navbar-collapse"><span class="visually-hidden">Toggle
+                        navigation</span><span class="navbar-toggler-icon"></span></button></div>
+            
+                <ul class="navbar-nav ms-auto"></ul>
             </div>
         </div>
     </nav>
     
-    <div class="container">
+    <div class="container" style="padding-top:10px;">
         
         <h1 class="text-center">Product Details</h1>
         <div class="row text-center">
@@ -163,7 +175,7 @@ if ($result->num_rows > 0) {
                         <td><?php echo $car_color; ?></td>
                     </tr>
                     <tr>
-                        <th>Antall kjørte kilometer</th>
+                        <th>Antall km</th>
                         <td><?php echo $car_km . "km"; ?></td>
                     </tr>
                     <tr>
@@ -224,22 +236,24 @@ if ($result->num_rows > 0) {
     </div>
 <style>
     th {
-        width: 10% !important ;
-
+        width: 15% !important ;
+        background-color: rgba(0,0,0,0) !important;
+        color:white !important;
     }
     td {
-        width: 10% !important;
-        
+        width: 15% !important;
+        background-color: rgba(0,0,0,0) !important;
+        color:white !important;
     }
     .col-md-6 {
-        width: 30%;
-        
+        width: 40%;
+        background-color: rgba(0,0,0,0) !important
     }
     .flex-column {
         flex-direction: row !important;
     }
     .col-12 {
-        
+        /* width: 40%; */
         background-color: rgba(0,0,0,0) !important;
     }
     .div-wholeTable {
@@ -248,6 +262,7 @@ if ($result->num_rows > 0) {
     }
     .col-md-6 {
         background-color: rgba(0,0,0,0) !important;
+        width: 40%;
     }
     .parallax {
         color:white;

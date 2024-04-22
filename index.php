@@ -61,7 +61,7 @@ $result = $stmt->get_result();
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Untitled</title>
+    <title>Butikk sjappe</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cookie">
     <link rel="stylesheet" href="assets/css/swiper-icons.css">
@@ -87,18 +87,11 @@ $result = $stmt->get_result();
     <nav class="navbar navbar-expand-md custom-header navbar-light"
         style="display:flex !important; justify-content:right !important; width:100% !important;">
         <div class="container-fluid"
-            style="display:flex !important;justify-content:space-between !important;width:100%;">
-            <div><a class="navbar-brand" href="#">Company<span>logo </span> </a><button data-bs-toggle="collapse"
+            style="display:flex !important;;justify-content:space-between !important;width:100%;">
+            <div><a class="navbar-brand" href="index.php">Company<span>logo </span> </a><button data-bs-toggle="collapse"
                     class="navbar-toggler" data-bs-target="#navbar-collapse"><span class="visually-hidden">Toggle
                         navigation</span><span class="navbar-toggler-icon"></span></button></div>
-            <div class="dropdown">
-                <input type="checkbox" role="button" aria-label="Display the menu" class="menu">
-                <div class="dropdown-content">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-
-                </div>
+            
                 <ul class="navbar-nav ms-auto"></ul>
             </div>
         </div>
