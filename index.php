@@ -88,12 +88,13 @@ $result = $stmt->get_result();
         style="display:flex !important; justify-content:right !important; width:100% !important;">
         <div class="container-fluid"
             style="display:flex !important;;justify-content:space-between !important;width:100%;">
-            <div><a class="navbar-brand" href="index.php">Company<span>logo </span> </a><button data-bs-toggle="collapse"
-                    class="navbar-toggler" data-bs-target="#navbar-collapse"><span class="visually-hidden">Toggle
+            <div><a class="navbar-brand" href="index.php">Company<span>logo </span> </a><button
+                    data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navbar-collapse"><span
+                        class="visually-hidden">Toggle
                         navigation</span><span class="navbar-toggler-icon"></span></button></div>
-            
-                <ul class="navbar-nav ms-auto"></ul>
-            </div>
+
+            <ul class="navbar-nav ms-auto"></ul>
+        </div>
         </div>
     </nav>
     <div class="container-fluid text-center d-lg-flex d-flex justify-content-center align-items-center align-content-center align-items-lg-center video-parallax-container"
@@ -158,8 +159,8 @@ $result = $stmt->get_result();
                                 echo ' active';
                             echo '">';
                         }
-                        echo '<div class="product-box">';
-                        echo '<div class="div-image">';
+                        echo '<div class="product-box-ub">';
+                        echo '<div class="div-image-ub">';
                         echo '<a href="ad.php?car_id=' . $row["car_id"] . '" style="width:100%;"><img src="' . $row["car_image"] . '"class="image-car" style="width:100%;"></a>';
                         echo '</div>';
                         echo '<div class="product-details">';
@@ -325,31 +326,52 @@ $result = $stmt->get_result();
                                         .product-grid7 {
                                             display: flex;
                                             flex-wrap: wrap;
-                                            justify-content: flex-start;
+                                            justify-content: space-evenly;
                                             margin-bottom: 20px;
                                         }
 
                                         .product-box {
-                                            display: flex;
-                                            justify-content: center;
-                                            flex-direction: column;
-                                            align-items: center;
-                                            width: 30%;
-                                            /* Adjust width for three columns with some spacing */
-                                            margin: 15px;
-                                            /* overflow: hidden; */
+
                                             border: 1px solid #ccc;
-                                            /* Add border for better visualization */
-                                            box-sizing: border-box;
-                                            /* Ensure padding and border are included in width */
+                                            border-radius: 8px;
+                                            overflow: hidden;
+                                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                                            transition: transform 0.3s ease;
+                                            margin-bottom: 20px;
+                                            min-width: 40%;
+                                            height: 300px;
+
+                                        }
+
+                                        .product-box-ub {
+                                            border: 1px solid #ccc;
+                                            border-radius: 8px;
+                                            overflow: hidden;
+                                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                                            transition: transform 0.3s ease;
+                                            margin-bottom: 20px;
+                                            width: 20%;
+                                            height: 200px;
+                                        }
+
+                                        .product-box:hover {
+                                            transform: translateY(-5px);
+                                        }
+
+                                        .product-box:hover .product-image img {
+                                            transform: scale(1.1);
                                         }
 
                                         .div-image {
                                             overflow: hidden;
+                                            height: 230px;
+                                            /* Adjust height for the top half */
+                                        }
+                                        .div-image-ub {
+                                            overflow: hidden;
                                             height: 150px;
                                             /* Adjust height for the top half */
                                         }
-
                                         .product-image img {
                                             width: 100%;
                                             height: 100%;
@@ -361,7 +383,12 @@ $result = $stmt->get_result();
                                             display: flex;
                                             width: 90%;
                                             justify-content: space-between;
+                                            align-items: center;
 
+                                        }
+                                        h6 {
+                                            padding: 0;
+                                            margin:0;
                                         }
 
                                         .product-details p {
@@ -381,8 +408,8 @@ $result = $stmt->get_result();
                                         }
 
                                         .product-image img {
-                                            width: 200%;
-                                            max-width: 200px;
+                                            width: 100%;
+                                            /* max-width: 200px; */
                                             height: auto;
                                         }
 
@@ -391,8 +418,53 @@ $result = $stmt->get_result();
 
                                         }
                                     </style>
+                                    <!-- .product-box {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin-bottom: 20px;
+}
 
 
+.product-image img {
+    width: 100%;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+
+.product-details {
+    padding: 15px;
+    text-align: center;
+}
+
+.product-details h3 {
+    margin-top: 0;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.product-details .price {
+    font-size: 1.1em;
+    color: #007bff;
+    margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+    .product-box {
+        width: 45%;
+    }
+}
+
+@media (max-width: 576px) {
+    .product-box {
+        width: 100%;
+    }
+}
+
+ -->
 
 
                                 </div>
