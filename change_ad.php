@@ -1,8 +1,9 @@
 <?php
-include_once("db.connect.php");
+include_once ("db.connect.php");
 
 // Function to generate table rows
-function generateTableRow($key, $value) {
+function generateTableRow($key, $value)
+{
     echo "<tr>";
     echo "<td>$key</td>";
     echo "<td>:</td>";
@@ -11,7 +12,7 @@ function generateTableRow($key, $value) {
 }
 
 // Database connection and query to fetch car data
-$select_query = "SELECT car_id, car_name, car_price, car_text, car_image, car_year, car_km, car_gearbox, car_fuel, car_power, car_seats, car_owners, car_wheeldrive, car_range, car_color, car_last_eu_control, car_next_eu_control, car_weight, car_of_the_week FROM cars";
+$select_query = "SELECT car_id, car_name, car_price, car_text, car_image1, car_year, car_km, car_gearbox, car_fuel, car_power, car_seats, car_owners, car_wheeldrive, car_range, car_color, car_last_eu_control, car_next_eu_control, car_weight, car_of_the_week FROM cars";
 $stmt = $conn->prepare($select_query);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -42,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update_car"])) {
     }
     $update_query = rtrim($update_query, ", "); // Remove the last comma and space
     $update_query .= " WHERE car_id = $carId";
-    
+
     // Execute the update query
     if ($conn->query($update_query) === TRUE) {
         // Redirect to the same page to refresh the displayed data
@@ -54,12 +55,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update_car"])) {
 }
 
 ?>
-
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Car Information</title>
-</head>
+</head> 
+
 <body>
     <h2>Car Information</h2>
     <a href="admin.php">tilbake til admin</a>
@@ -82,6 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update_car"])) {
         echo "<form method=\"post\">";
         echo "<input type=\"hidden\" name=\"car_id\" value=\"{$selectedCar['car_id']}\">";
         echo "<table>";
+
         foreach ($selectedCar as $key => $value) {
             echo "<tr>";
             echo "<td>$key</td>";
@@ -95,4 +98,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["update_car"])) {
     }
     ?>
 </body>
+
 </html>

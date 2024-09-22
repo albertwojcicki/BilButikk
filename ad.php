@@ -1,6 +1,5 @@
 <?php
 include_once("db.connect.php");
-
 // Assuming $product_id contains the specific product ID you want to display
 if (isset($_GET['car_id'])) {
     // Assuming $product_id contains the specific product ID you want to display
@@ -10,8 +9,7 @@ if (isset($_GET['car_id'])) {
 } else {
     echo "No product ID provided";
 }
-
-$select_query = "SELECT car_name, car_brand, car_price, car_text, car_image,car_stand, car_year, car_km, car_gearbox, car_fuel,
+$select_query = "SELECT car_name, car_brand, car_price, car_text, car_image1, car_image2,  car_image3, car_image4, car_image5, car_image6, car_image7, car_image8, car_image9, car_image10,  car_stand, car_year, car_km, car_gearbox, car_fuel,
 car_power, car_seats, car_owners, car_wheeldrive, car_range, car_color, car_last_eu_control, car_next_eu_control,
 car_weight, car_of_the_week FROM cars WHERE car_id = ?";
 $stmt = $conn->prepare($select_query);
@@ -27,7 +25,16 @@ if ($result->num_rows > 0) {
     $car_brand = $row["car_brand"];
     $car_price = $row["car_price"];
     $description = $row["car_text"];
-    $car_image = $row["car_image"];
+    $car_image1 = $row["car_image1"];
+    $car_image2 = $row["car_image2"];
+    $car_image3 = $row["car_image3"];
+    $car_image4 = $row["car_image4"];
+    $car_image5 = $row["car_image5"];
+    $car_image6 = $row["car_image6"];
+    $car_image7 = $row["car_image7"];
+    $car_image8 = $row["car_image8"];
+    $car_image9 = $row["car_image9"];
+    $car_image10 = $row["car_image10"];
     $car_stand = $row["car_stand"];
     $car_year = $row["car_year"];
     $car_km = $row["car_km"];
@@ -46,8 +53,6 @@ if ($result->num_rows > 0) {
 
     // Close statement
     $stmt->close();
-    
-    
     $carData = array(
         "Modellår" => $car_year,
         "Merke" => $car_brand,
@@ -111,6 +116,7 @@ if ($result->num_rows > 0) {
     <link rel="stylesheet" href="assets/css/Simple-Slider.css">
     <link rel="stylesheet" href="assets/css/Video-Parallax-Background-video-parallax.css">
     <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
     <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
 </head>
 
@@ -129,23 +135,25 @@ if ($result->num_rows > 0) {
     </nav>
     
     <div class="container" style="padding-top:10px;">
-        
-        <h1 class="text-center">Product Details</h1>
-        <div class="row text-center">
-            <div class="col-md-7">
-                <div class="simple-slider">
-                    <div class="swiper-container">
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide" style="background: url(<?php echo $car_image; ?>) center center / cover no-repeat;"></div>
-                            <div class="swiper-slide" style="background: url(<?php echo $car_image; ?>) center center / cover no-repeat;"></div>
-                            <div class="swiper-slide" style="background: url(<?php echo $car_image; ?>) center center / cover no-repeat;"></div>
-                        </div>
-                        <div class="swiper-pagination"></div>
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
+    <h1 class="text-center">Produkt detaljer</h1>
+    <div class="row text-center" style="height: 600px;">
+        <div class="col-md-7">
+            <div class="simple-slider">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <?php for ($i = 1; $i <= 10; $i++): ?>
+                            <?php $imageVar = "car_image" . $i; ?>
+                            <?php if (!empty($$imageVar)): ?>
+                                <div class="swiper-slide" style="background: url(<?php echo $$imageVar; ?>) center center / cover no-repeat;"></div>
+                            <?php endif; ?>
+                        <?php endfor; ?>
                     </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
                 </div>
             </div>
+        </div>
             <div class="col-md-5">
                 
             <h1><?php echo $car_name; ?></h1>
@@ -156,7 +164,7 @@ if ($result->num_rows > 0) {
         </div>
     </div>
     <div class="parallax">
-        <div class="container d-flex justify-content-center align-items-center parallax-content" style="height:100vh; display:flex;flex-direction:row !important;justify-content:space-evenly;">
+        <div class="container d-flex justify-content-center align-items-center parallax-content" style="height:80vh; display:flex;flex-direction:row !important;justify-content:space-evenly;">
             <div class="col-12 col-md-10 col-lg-8 d-flex justify-content-center flex-column">
                 
                 <div class="col-md-6">
@@ -231,7 +239,7 @@ if ($result->num_rows > 0) {
         </div><video class="parallax-background" autoplay="" loop="" muted="">
             <source src="video.mp4" type="video/mp4" >
         </video>
-        <div class="parallax-placeholder" style="background-image:url(uploads/bmw.jpg);"></div>
+        <div class="parallax-placeholder" style="background-image:url(uploads/test.jpg);"></div>
     </div>
     </div>
 <style>
@@ -326,6 +334,7 @@ if ($result->num_rows > 0) {
     <script src="assets/js/Video-Parallax-Background-video-parallax.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="assets/js/Video-Parallax-Background-v2-multiple-parallax.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 </body>
 
 </html>

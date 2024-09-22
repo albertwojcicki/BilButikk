@@ -1,7 +1,7 @@
 <?php
 include_once ("db.connect.php");
 
-$select_query = "SELECT car_id, car_name, car_brand, car_price, car_text, car_image,car_stand, car_year, car_km, car_gearbox, car_fuel,
+$select_query = "SELECT car_id, car_name, car_brand, car_price, car_text, car_image1, car_stand, car_year, car_km, car_gearbox, car_fuel,
 car_power, car_seats, car_owners, car_wheeldrive, car_range, car_color, car_last_eu_control, car_next_eu_control,
 car_weight, car_of_the_week  FROM cars";
 // Initialize variables for filters
@@ -11,40 +11,75 @@ $filterStand = isset($_POST['stand']) ? $_POST['stand'] : 'all';
 $filterColor = isset($_POST['color']) ? $_POST['color'] : 'all';
 
 // Prepare base query
-$select_week_query = "SELECT car_id, car_name, car_price, car_text, car_image FROM cars WHERE car_of_the_week = 1";
+$select_week_query = "SELECT car_id, car_name, car_price, car_text, car_image1 FROM cars WHERE car_of_the_week = 1";
 $stmt_week = $conn->prepare($select_week_query);
 
 $stmt_week->execute();
 $result_week = $stmt_week->get_result();
 
+// Prepare base query
+// Initialize variables for filters
+$filterSort = isset($_POST['sort']) ? $_POST['sort'] : 'all';
+$filterBrand = isset($_POST['brand']) ? $_POST['brand'] : 'all';
+$filterStand = isset($_POST['stand']) ? $_POST['stand'] : 'all';
+$filterColor = isset($_POST['color']) ? $_POST['color'] : 'all';
 
-$select_query = "SELECT car_id, car_name, car_price, car_text, car_image FROM cars WHERE 1";
+// Prepare base query
+$select_query = "SELECT car_id, car_name, car_price, car_text, car_image1 FROM cars WHERE 1=1"; 
 
-// Add filters to the query
-if ($filterSort != 'all') {
-    // Modify query based on sort filter
-    // Add your logic here for sorting
-}
-
+// Add brand filter
 if ($filterBrand != 'all') {
-    // Modify query based on brand filter
-    $select_query .= " AND car_brand = '$filterBrand'";
+    $select_query .= " AND car_brand = ?";
 }
 
+// Add stand filter
 if ($filterStand != 'all') {
-    // Modify query based on stand filter
-    $select_query .= " AND car_stand = '$filterStand'";
+    $select_query .= " AND car_stand = ?";
 }
 
+// Add color filter
 if ($filterColor != 'all') {
-    // Modify query based on color filter
-    // Ensure to use the correct column name for the color field in your database
-    $select_query .= " AND car_color = '$filterColor'";
+    $select_query .= " AND car_color = ?";
 }
 
-
+// Add sorting to the query
+switch ($filterSort) {
+    case 'price_asc':
+        $select_query .= " ORDER BY car_price ASC";
+        break;
+    case 'price_desc':
+        $select_query .= " ORDER BY car_price DESC";
+        break;
+    case 'newest':
+        $select_query .= " ORDER BY car_created_at DESC";
+        break;
+    default:
+        $select_query .= " ORDER BY car_created_at DESC";
+        break;
+}
 
 $stmt = $conn->prepare($select_query);
+
+// Bind parameters for the filters
+$bind_types = '';
+$bind_values = [];
+
+if ($filterBrand != 'all') {
+    $bind_types .= 's';
+    $bind_values[] = $filterBrand;
+}
+if ($filterStand != 'all') {
+    $bind_types .= 's';
+    $bind_values[] = $filterStand;
+}
+if ($filterColor != 'all') {
+    $bind_types .= 's';
+    $bind_values[] = $filterColor;
+}
+
+if ($bind_types) {
+    $stmt->bind_param($bind_types, ...$bind_values);
+}
 
 if (!$stmt) {
     // If there's an error in query preparation, output the error message
@@ -53,6 +88,8 @@ if (!$stmt) {
 
 $stmt->execute();
 $result = $stmt->get_result();
+
+
 
 ?>
 <!DOCTYPE html>
@@ -78,7 +115,7 @@ $result = $stmt->get_result();
         // Initialize the carousel
         var myCarousel = document.getElementById('carOfWeekCarousel');
         var carousel = new bootstrap.Carousel(myCarousel, {
-            interval: false // Disable auto sliding
+            interval: true // Disable auto sliding
         });
     </script>
 </head>
@@ -145,11 +182,10 @@ $result = $stmt->get_result();
             padding-top: 5px;
         }
     </style>
-    <div class="div-carWeek">
+   <div class="div-carWeek">
         <h1>Ukens biler</h1>
-        <div class="div-carProducts">
-            <div class="carousel">
-                <div class="carousel-inner">
+        <div id="carOfWeekCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
                     <?php
                     $count = 0;
                     while ($row = $result_week->fetch_assoc()) {
@@ -157,11 +193,11 @@ $result = $stmt->get_result();
                             echo '<div class="carousel-item';
                             if ($count == 0)
                                 echo ' active';
-                            echo '">';
+                            echo '" style="max-height:200px;">';
                         }
                         echo '<div class="product-box-ub">';
                         echo '<div class="div-image-ub">';
-                        echo '<a href="ad.php?car_id=' . $row["car_id"] . '" style="width:100%;"><img src="' . $row["car_image"] . '"class="image-car" style="width:100%;"></a>';
+                        echo '<a href="ad.php?car_id=' . $row["car_id"] . '" style="width:100%;"><img src="' . $row["car_image1"] . '"class="image-car" style="width:100%;"></a>';
                         echo '</div>';
                         echo '<div class="product-details">';
                         echo '<h6>' . $row["car_name"] . '</h6>';
@@ -177,6 +213,7 @@ $result = $stmt->get_result();
 
                     if ($count % 4 != 0) {
                         echo '</div>';
+
                     }
                     ?>
                 </div>
@@ -196,69 +233,70 @@ $result = $stmt->get_result();
     </div>
     <div class="container mtr-5 mb-2">
         <div class="row">
-            <div class="col-md-2 col-12 border" id="bookmark">
-
-                <form action="index.php" method="post">
+            <div class="col-md-2 col-12 border filter-form-background" id="bookmark" style="border:none !important;">
+                <form action="index.php" method="post" class="filter-form-background">
                     <p class="lead text-center mb-0">Sorter etter:</p>
-                    <select class="form-control" name="sort">
-                        <option value="all" <?php if ($filterSort == 'all')
+                    <select class="form-control" name="sort" class="form-select">
+                    <option class="filter-form" value="all" <?php if ($filterSort == 'all')
+                            echo 'selected'; ?>>Alle</option>
+                        <option class="filter-form" value="price_asc" <?php if ($filterSort == 'price_asc')
                             echo 'selected'; ?>>Pris: Lav til høy</option>
-                        <option value="reviews" <?php if ($filterSort == 'reviews')
+                        <option class="filter-form" value="price_desc" <?php if ($filterSort == 'price_desc')
                             echo 'selected'; ?>>Pris: Høy til lav
                         </option>
-                        <option value="newest" <?php if ($filterSort == 'newest')
+                        <option class="filter-form" value="newest" <?php if ($filterSort == 'newest')
                             echo 'selected'; ?>>Nye</option>
                     </select>
                     <hr>
                     <p class="lead text-center mb-0">Bil merke:</p>
-                    <select class="form-control" name="brand">
-                        <option value="all" <?php if ($filterBrand == 'all')
-                            echo 'selected'; ?>>All</option>
-                        <option value="BMW" <?php if ($filterBrand == 'BMW')
+                    <select class="form-control" name="brand" class="form-select">
+                        <option class="filter-form" value="all" <?php if ($filterBrand == 'all')
+                            echo 'selected'; ?>>Alle</option>
+                        <option class="filter-form" value="BMW" <?php if ($filterBrand == 'BMW')
                             echo 'selected'; ?>>BMW</option>
-                        <option value="Audi" <?php if ($filterBrand == 'Audi')
+                        <option class="filter-form" value="Audi" <?php if ($filterBrand == 'Audi')
                             echo 'selected'; ?>>Audi</option>
-                        <option value="Toyota" <?php if ($filterBrand == 'Toyota')
+                        <option class="filter-form" value="Toyota" <?php if ($filterBrand == 'Toyota')
                             echo 'selected'; ?>>Toyota</option>
-                        <option value="Opel" <?php if ($filterBrand == 'Opel')
+                        <option class="filter-form" value="Opel" <?php if ($filterBrand == 'Opel')
                             echo 'selected'; ?>>Opel</option>
-                        <option value="Tesla" <?php if ($filterBrand == 'Tesla')
+                        <option class="filter-form" value="Tesla" <?php if ($filterBrand == 'Tesla')
                             echo 'selected'; ?>>Tesla</option>
-                        <option value="Volkswagen" <?php if ($filterBrand == 'Volkswagen')
+                        <option class="filter-form" value="Volkswagen" <?php if ($filterBrand == 'Volkswagen')
                             echo 'selected'; ?>>Volkswagen
                         </option>
-                        <option value="Skoda" <?php if ($filterBrand == 'Skoda')
+                        <option class="filter-form" value="Skoda" <?php if ($filterBrand == 'Skoda')
                             echo 'selected'; ?>>Skoda</option>
-                        <option value="Kia" <?php if ($filterBrand == 'Kia')
+                        <option class="filter-form" value="Kia" <?php if ($filterBrand == 'Kia')
                             echo 'selected'; ?>>Kia</option>
-                        <option value="Hyundai" <?php if ($filterBrand == 'Hyundai')
+                        <option class="filter-form" value="Hyundai" <?php if ($filterBrand == 'Hyundai')
                             echo 'selected'; ?>>Hyundai</option>
 
                     </select>
                     <hr>
                     <p class="lead text-center mb-0">Brukt/Ubrukt:</p>
-                    <select class="form-control" name="stand">
-                        <option value="all" <?php if ($filterStand == 'all')
-                            echo 'selected'; ?>>All</option>
-                        <option value="Brukt" <?php if ($filterStand == 'Brukt')
+                    <select class="form-control" name="stand" class="form-select">
+                        <option class="filter-form" value="all" <?php if ($filterStand == 'all')
+                            echo 'selected'; ?>>Alle</option>
+                        <option class="filter-form" value="Brukt" <?php if ($filterStand == 'Brukt')
                             echo 'selected'; ?>>Brukt</option>
-                        <option value="Ubrukt" <?php if ($filterStand == 'Ubrukt')
-                            echo 'selected'; ?>>Ubrukt</option>
+                        <option class="filter-form" value="Ubrukt" <?php if ($filterStand == 'Ubrukt')
+                            echo 'selected'; ?>>Ny</option>
                     </select>
                     <hr>
                     <p class="lead text-center mb-0">Farge:</p>
-                    <select class="form-control mb-2" name="color">
-                        <option value="all" <?php if ($filterColor == 'all')
-                            echo 'selected'; ?>>All</option>
-                        <option value="Svart" <?php if ($filterColor == 'Svart')
+                    <select class="form-control mb-2" name="color" class="form-select">
+                        <option class="filter-form" value="all" <?php if ($filterColor == 'all')
+                            echo 'selected'; ?>>Alle</option>
+                        <option class="filter-form" value="Svart" <?php if ($filterColor == 'Svart')
                             echo 'selected'; ?>>Svart</option>
-                        <option value="Hvit" <?php if ($filterColor == 'Hvit')
+                        <option class="filter-form" value="Hvit" <?php if ($filterColor == 'Hvit')
                             echo 'selected'; ?>>Hvit</option>
-                        <option value="Grå" <?php if ($filterColor == 'Grå')
+                        <option class="filter-form" value="Grå" <?php if ($filterColor == 'Grå')
                             echo 'selected'; ?>>Grå</option>
-                        <option value="Rød" <?php if ($filterColor == 'Rød')
+                        <option class="filter-form" value="Rød" <?php if ($filterColor == 'Rød')
                             echo 'selected'; ?>>Rød</option>
-                        <option value="Grønn" <?php if ($filterColor == 'Grønn')
+                        <option class="filter-form" value="Grønn" <?php if ($filterColor == 'Grønn')
                             echo 'selected'; ?>>Grønn</option>
 
                     </select>
@@ -290,16 +328,6 @@ $result = $stmt->get_result();
                         window.location.href = 'index.php?filters_applied=true';
                     }
                 </script>
-
-
-
-
-
-
-
-
-
-
             </div>
             <div class="col-md-10 col-12" id="articles">
                 <div class="shopping-grid">
@@ -309,115 +337,20 @@ $result = $stmt->get_result();
                                 <div class="product-grid7">
                                     <?php
                                     while ($row = $result->fetch_assoc()) {
-                                        echo '<div class="product-box">';
-                                        echo '<div class="div-image">';
-                                        echo '<a href="ad.php?car_id=' . $row["car_id"] . '" style="width:100%;"><img src="' . $row["car_image"] . '"class="image-car" style="width:100%;"></a>';
+                                        echo '<div class="product-box-ub" style="min-width:350px; ">';
+                                        echo '<a href="ad.php?car_id=' . $row["car_id"] . '"style="width: 100%; text-decoration: none;color:black; ">';  // Wrap everything in an <a> tag
+                                        echo '<div class="div-image-ub">';
+                                        echo '<img src="' . $row["car_image1"] . '" class="image-car" style="width:100%; object-fit:contain;">';
                                         echo '</div>';
                                         echo '<div class="product-details">';
-
-                                        echo '<h6>' . $row["car_name"] . '</h6>';
-                                        echo '<h6> ' . $row["car_price"] . "kr" . '</h6>';
-
+                                        echo '<h6 class="link-ad">' . $row["car_name"] . '</h6>';
+                                        echo '<h6 class="link-ad"> ' . $row["car_price"] . 'kr</h6>';
                                         echo '</div>';
                                         echo '</div>';
+                                        echo '</a>';  // Close the <a> tag
                                     }
                                     ?>
-                                    <style>
-                                        .product-grid7 {
-                                            display: flex;
-                                            flex-wrap: wrap;
-                                            justify-content: space-evenly;
-                                            margin-bottom: 20px;
-                                        }
-
-                                        .product-box {
-
-                                            border: 1px solid #ccc;
-                                            border-radius: 8px;
-                                            overflow: hidden;
-                                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                                            transition: transform 0.3s ease;
-                                            margin-bottom: 20px;
-                                            min-width: 40%;
-                                            height: 300px;
-
-                                        }
-
-                                        .product-box-ub {
-                                            border: 1px solid #ccc;
-                                            border-radius: 8px;
-                                            overflow: hidden;
-                                            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                                            transition: transform 0.3s ease;
-                                            margin-bottom: 20px;
-                                            width: 20%;
-                                            height: 200px;
-                                        }
-
-                                        .product-box:hover {
-                                            transform: translateY(-5px);
-                                        }
-
-                                        .product-box:hover .product-image img {
-                                            transform: scale(1.1);
-                                        }
-
-                                        .div-image {
-                                            overflow: hidden;
-                                            height: 230px;
-                                            /* Adjust height for the top half */
-                                        }
-                                        .div-image-ub {
-                                            overflow: hidden;
-                                            height: 150px;
-                                            /* Adjust height for the top half */
-                                        }
-                                        .product-image img {
-                                            width: 100%;
-                                            height: 100%;
-                                            object-fit: cover;
-                                        }
-
-                                        .product-details {
-                                            padding: 10px;
-                                            display: flex;
-                                            width: 90%;
-                                            justify-content: space-between;
-                                            align-items: center;
-
-                                        }
-                                        h6 {
-                                            padding: 0;
-                                            margin:0;
-                                        }
-
-                                        .product-details p {
-                                            margin: 5px 0;
-                                        }
-
-                                        .product-grid {
-                                            display: grid;
-                                            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-                                            grid-gap: 20px;
-                                            width: 100%;
-                                        }
-
-                                        .product-box {
-                                            border: 1px solid #ccc;
-                                            padding: 10px;
-                                        }
-
-                                        .product-image img {
-                                            width: 100%;
-                                            /* max-width: 200px; */
-                                            height: auto;
-                                        }
-
-                                        .product-details {
-                                            text-align: center;
-
-                                        }
-                                    </style>
+                                    
                                     <!-- .product-box {
     border: 1px solid #ccc;
     border-radius: 8px;
